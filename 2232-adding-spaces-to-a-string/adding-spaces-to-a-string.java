@@ -1,16 +1,20 @@
 class Solution {
     public String addSpaces(String s, int[] spaces) {
         StringBuilder sb=new StringBuilder();
-
-        sb.append(s.substring(0,spaces[0]));
-        int i=1;
-        for(; i<spaces.length; i++){
-            sb.append(" ");
-            sb.append(s.substring(spaces[i-1],spaces[i]));            
+        int spaceIndex=0;// space wale ka index h yeh 
+        int n = s.length(); // string ki length
+        int m = spaces.length ; // space wale array ki length hai 
+        for(int stringIndex = 0 ; stringIndex < n ;stringIndex++)
+        {
+            if(spaceIndex < m && spaces[spaceIndex] == stringIndex )
+            {
+                sb.append(' ');
+                spaceIndex++;
+            }
+            sb.append(s.charAt(stringIndex));
         }
-        sb.append(" ");
-        sb.append(s.substring(spaces[i-1])); 
-
         return sb.toString();
+
+        
     }
 }
