@@ -1,30 +1,38 @@
 class Solution {
     public int compress(char[] chars) {
-        int write = 0;  // Pointer to write the compressed characters
-        int read = 0;   // Pointer to read through the array
+        StringBuilder sb = new StringBuilder(); // Temporary space to store compressed result
+        int count = 1;
+        int i = 1; // Start from the second character
         
-        while (read < chars.length) {
-            char currentChar = chars[read];  // The current character being processed
-            int count = 0;
-            
-            // Count the occurrences of the current character
-            while (read < chars.length && chars[read] == currentChar) {
-                read++;
+        // Append the first character to the StringBuilder
+        sb.append(chars[0]);
+        
+        while (i < chars.length) {
+            if (chars[i] == chars[i - 1]) {
+                // Increment count if the current character matches the previous one
                 count++;
-            }
-            
-            // Write the character
-            chars[write++] = currentChar;
-            
-            // If the count is greater than 1, write the count as well
-            if (count > 1) {
-                for (char c : Integer.toString(count).toCharArray()) {
-                    chars[write++] = c;
+            } else {
+                // If the group ends and count > 1, append the count
+                if (count > 1) {
+                    sb.append(count);
                 }
+                // Append the current character to start a new group
+                sb.append(chars[i]);
+                count = 1; // Reset count for the new group
             }
+            i++;
         }
         
-        // Return the new length of the compressed array
-        return write;
+        // Handle the last group (if count > 1, append the count)
+        if (count > 1) {
+            sb.append(count);
+        }
+        
+        // Overwrite the input array with the compressed result
+        for (int j = 0; j < sb.length(); j++) {
+            chars[j] = sb.charAt(j);
+        }
+        
+        return sb.length();
     }
 }
